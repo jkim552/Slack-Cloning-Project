@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
-import { Box, Avatar, Button, Grid, Paper, TextField, Typography, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Checkbox }
+import React, { useRef, useState } from 'react'
+import { Box, Avatar, Button, Grid, Paper, TextField, Typography, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Checkbox, Alert }
   from '@mui/material'
 import styles from './Login.module.css'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { useAuth } from '../../contexts/AuthContext'
 
-const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+const LoginPage = (props) => {
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { signIn, currentUser } = useAuth()
 
-  const signIn = async () => {
-    const auth = getAuth()
-    const result = await signInWithEmailAndPassword(auth, email, password)
-    console.log(result)
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    try {
+      setError('')
+      setLoading(true)
+      await signIn(emailRef.current.value, passwordRef.current.value)      
+    } catch {
+      setError('Failed to Login')
+    }
+    setLoading(false)
   }
 
   return (
@@ -19,31 +29,32 @@ const Login = () => {
       <Paper className={styles.paper} elevation={20}>
         <Grid align='center'>
           <Avatar style={{ backgroundColor: '#1bbd72' }}>
-
           </Avatar>
           <h2>Log In</h2>
         </Grid>
+        {currentUser && currentUser.email}
+        {error && <Alert severity="error">{error}</Alert>}
         <form className={styles.form}
-          onSubmit={(e)=>e.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <TextField
             variant="standard"
             fullWidth label='Email'
-            onChange={(e) => setEmail(e.target.value)}
+            ref={emailRef}
           />
           <TextField 
           variant="standard" 
           fullWidth label='Password' 
-          onChange={(e) => setPassword(e.target.value)} />
+          ref={passwordRef} />
           <FormControlLabel
             control={<Checkbox name="checkedA" />}
             label="Remember me"
           />
           <Button
-            className={styles.loginBtn} type='submit'
-            variant='contained'
-            color='primary'
-            onClick={signIn}>
+            disabled={loading}
+            className={styles.loginBtn}
+            variant='contained' color='primary'
+          >
             Log In
           </Button>
         </form>
@@ -52,4 +63,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginPage

@@ -1,20 +1,33 @@
 import React, { useRef, useState } from 'react'
-import { Box, Avatar, Button, Grid, Paper, TextField, Typography, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Checkbox }
+import { Box, Avatar, Button, Grid, Paper, TextField, Typography, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Checkbox, Alert }
   from '@mui/material'
 import AddIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import styles from './Signup.module.css'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { useAuth } from '../../contexts/AuthContext'
 
-const SignupPage = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+const SignupPage = (props) => {
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const confirmPasswordRef = useRef()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { signUp, currentUser } = useAuth()
 
-  const signUp = async () => {
-    const auth = getAuth()
-    const result = await createUserWithEmailAndPassword(auth, email, password)
-    console.log(result)
+  async function handleSubmit(e) {
+    e.preventDefault()
+    
+    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+      return setError('Passwords do not match')
+    }
+    try {
+      setError('')
+      setLoading(true)
+      await signUp(emailRef.current.value, passwordRef.current.value)      
+    } catch {
+      setError('Failed to create an account')
+    }
+    setLoading(false)
   }
-
 
   return (
     <Grid>
@@ -26,12 +39,14 @@ const SignupPage = () => {
           <h2>Sign up</h2>
           <Typography variant='caption'>Please fill this form to create account</Typography>
         </Grid>
+        {currentUser && currentUser.email}
+        {error && <Alert severity="error">{error}</Alert>}
         <form className={styles.form}
-          onSubmit={(e)=>e.preventDefault()}
+          onSubmit={handleSubmit}
         >
-          <TextField
+          {/* <TextField
             variant="standard"
-            fullWidth label='Name' />
+            fullWidth label='Name' /> */}
           {/* <FormControl style={{ marginTop: 10 }}>
             <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
             <RadioGroup
@@ -51,30 +66,30 @@ const SignupPage = () => {
             type='email'
             fullWidth label='Email'
             placeholder='example123@xxx.com'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            inputRef={emailRef}
           />
           <TextField
             required
             variant="standard"
             type='password'
             fullWidth label='Password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            inputRef={passwordRef}
           />
           <TextField
             required
             variant="standard"
             type='password'
-            fullWidth label='Confirm password' />
+            fullWidth label='Confirm password'
+            inputRef={confirmPasswordRef}
+          />
           <FormControlLabel
             control={<Checkbox name="checkedA" />}
             label="I accept the terms and conditions"
           />
           <Button
+            disabled={loading}
             className={styles.signupBtn}
             type='submit' variant='contained' color='primary'
-            onClick={signUp}
           >
             Sign Up
           </Button>
