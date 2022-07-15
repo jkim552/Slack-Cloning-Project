@@ -1,13 +1,16 @@
 import react from 'react';
-import Signup from './Signup';
-import app from '../firebase';
-import { useState } from 'react';
+import Router from '../routes/Router';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 
 function App() {
-  return;
-  <div className='App'>
-    <Signup />;
-  </div>;
+  const theme = createTheme();
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Router />
+    </ThemeProvider>
+  );
 }
 
 export default App;

@@ -1,0 +1,12 @@
+.box{ 
+    padding-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slackLogo{
+    width: 200px;
+    height: 50px;
+
+}
