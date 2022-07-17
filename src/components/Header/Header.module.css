@@ -1,0 +1,39 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #421f44;
+    height: 64px;
+}
+
+.left{
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.profile{
+    opacity: 90%;
+}
+
+.middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.alarm{
+    color: white;
+    margin-right: 64px;
+}
+
+
+
+.searchSvgIcon {
+    color: grey;
+    margin-left: 24px;
+}
+
