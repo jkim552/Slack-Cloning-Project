@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { Box, Avatar, Button, Grid, Paper, TextField, Typography, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Checkbox, Alert }
+import { Avatar, Button, Grid, Paper, TextField, FormControlLabel, Checkbox, Alert }
   from '@mui/material'
 import styles from './Login.module.css'
 import { useAuth } from '../../contexts/AuthContext'
+import { Navigate } from 'react-router-dom'
 
-const LoginPage = (props) => {
+const LoginPage = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
   const [error, setError] = useState('')
@@ -13,11 +14,13 @@ const LoginPage = (props) => {
 
   async function handleSubmit(e) {
     e.preventDefault()
-
+    console.log('in handle submit function')
     try {
       setError('')
       setLoading(true)
-      await signIn(emailRef.current.value, passwordRef.current.value)      
+      await signIn(emailRef.current.value, passwordRef.current.value)  
+      alert("Signin successful")       
+      
     } catch {
       setError('Failed to Login')
     }
@@ -33,6 +36,7 @@ const LoginPage = (props) => {
           <h2>Log In</h2>
         </Grid>
         {currentUser && currentUser.email}
+
         {error && <Alert severity="error">{error}</Alert>}
         <form className={styles.form}
           onSubmit={handleSubmit}
@@ -53,7 +57,7 @@ const LoginPage = (props) => {
           <Button
             disabled={loading}
             className={styles.loginBtn}
-            variant='contained' color='primary'
+            type='submit' variant='contained' color='primary'
           >
             Log In
           </Button>

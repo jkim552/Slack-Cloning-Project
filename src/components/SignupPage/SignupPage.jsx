@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Box, Avatar, Button, Grid, Paper, TextField, Typography, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel, Checkbox, Alert }
+import { Avatar, Button, Grid, Paper, TextField, Typography,  FormControlLabel, Checkbox, Alert }
   from '@mui/material'
 import AddIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import styles from './Signup.module.css'
@@ -11,7 +11,7 @@ const SignupPage = (props) => {
   const confirmPasswordRef = useRef()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signUp, currentUser } = useAuth()
+  const { signUp } = useAuth()
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -22,7 +22,8 @@ const SignupPage = (props) => {
     try {
       setError('')
       setLoading(true)
-      await signUp(emailRef.current.value, passwordRef.current.value)      
+      await signUp(emailRef.current.value, passwordRef.current.value)
+      alert("Signup successful")      
     } catch {
       setError('Failed to create an account')
     }
@@ -39,27 +40,11 @@ const SignupPage = (props) => {
           <h2>Sign up</h2>
           <Typography variant='caption'>Please fill this form to create account</Typography>
         </Grid>
-        {currentUser && currentUser.email}
+        
         {error && <Alert severity="error">{error}</Alert>}
         <form className={styles.form}
           onSubmit={handleSubmit}
         >
-          {/* <TextField
-            variant="standard"
-            fullWidth label='Name' /> */}
-          {/* <FormControl style={{ marginTop: 10 }}>
-            <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-            <RadioGroup
-              style={{ display: 'initial' }}
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="gender"
-            >
-              <FormControlLabel value="female" control={<Radio />} label="Female" />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel value="other" control={<Radio />} label="Other" />
-            </RadioGroup>
-          </FormControl> */}
           <TextField
             required
             variant="standard"
