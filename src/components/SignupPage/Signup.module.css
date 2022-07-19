@@ -1,0 +1,14 @@
+.paper {
+  padding: 30px 20px;
+  margin: 30px auto;
+  width: 350px;
+}
+
+.form > * {
+  margin: 5px auto;
+}
+
+.signupBtn {
+  display: block;
+  width: 200px;
+}
