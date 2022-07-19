@@ -3,24 +3,24 @@ import { Avatar, Button, Grid, Paper, TextField, FormControlLabel, Checkbox, Ale
   from '@mui/material'
 import styles from './Login.module.css'
 import { useAuth } from '../../contexts/AuthContext'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import Navbar from '../Navbar/Navbar'
 
 const LoginPage = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signIn, currentUser } = useAuth()
+  const { signIn } = useAuth()
+  const navigate = useNavigate()
 
   async function handleSubmit(e) {
     e.preventDefault()
-    console.log('in handle submit function')
     try {
       setError('')
       setLoading(true)
-      await signIn(emailRef.current.value, passwordRef.current.value)  
-      alert("Signin successful")       
-      
+      await signIn(emailRef.current.value, passwordRef.current.value)
+      navigate('/home')
     } catch {
       setError('Failed to Login')
     }
@@ -28,42 +28,47 @@ const LoginPage = () => {
   }
 
   return (
-    <Grid>
-      <Paper className={styles.paper} elevation={20}>
-        <Grid align='center'>
-          <Avatar style={{ backgroundColor: '#1bbd72' }}>
-          </Avatar>
-          <h2>Log In</h2>
-        </Grid>
-        {currentUser && currentUser.email}
-
-        {error && <Alert severity="error">{error}</Alert>}
-        <form className={styles.form}
-          onSubmit={handleSubmit}
-        >
-          <TextField
-            variant="standard"
-            fullWidth label='Email'
-            ref={emailRef}
-          />
-          <TextField 
-          variant="standard" 
-          fullWidth label='Password' 
-          ref={passwordRef} />
-          <FormControlLabel
-            control={<Checkbox name="checkedA" />}
-            label="Remember me"
-          />
-          <Button
-            disabled={loading}
-            className={styles.loginBtn}
-            type='submit' variant='contained' color='primary'
+    <div>
+      <Navbar />
+      <Grid>
+        <Paper className={styles.paper} elevation={20}>
+          <Grid align='center'>
+            <Avatar style={{ backgroundColor: '#1bbd72' }}>
+            </Avatar>
+            <h2>Log In</h2>
+          </Grid>
+          {error && <Alert severity="error">{error}</Alert>}
+          <form className={styles.form}
+            onSubmit={handleSubmit}
           >
-            Log In
-          </Button>
-        </form>
-      </Paper>
-    </Grid>
+            <TextField
+              required
+              variant="standard"
+              type='email'
+              fullWidth label='Email'
+              inputRef={emailRef}
+            />
+            <TextField
+              required
+              variant="standard"
+              type='password'
+              fullWidth label='Password'
+              inputRef={passwordRef} />
+            <FormControlLabel
+              control={<Checkbox name="checkedA" />}
+              label="Remember me"
+            />
+            <Button
+              disabled={loading}
+              className={styles.loginBtn}
+              type='submit' variant='contained' color='primary'
+            >
+              Log In
+            </Button>
+          </form>
+        </Paper>
+      </Grid>
+    </div>
   )
 }
 

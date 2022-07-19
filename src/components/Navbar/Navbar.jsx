@@ -1,18 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { AppBar, Box, Toolbar, Typography, Button, IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link } from 'react-router-dom'
 import styles from './Navbar.module.css'
-import { getAuth, signOut } from 'firebase/auth'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Navbar = () => {
-  const logOut = async () => {
-    const auth = getAuth()
-    signOut(auth).then(()=>{
-      alert("logout successfully")
-    }).catch((err) => {
-      // error
-    })
+  const [error, setError] = useState("")
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    setError('')
+    try {
+      await logout()
+    } catch {
+      setError('Failed to log out')
+      alert(error)
+    }
   }
 
   return (
@@ -31,9 +35,13 @@ const Navbar = () => {
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} >
             <Link to="/" className={styles.link}>Slack</Link>
           </Typography>
-          <Button color='inherit'><Link to="login" className={styles.link}>Login</Link></Button>
-          <Button color='inherit'><Link to="signup" className={styles.link}>Signup</Link></Button>
-          <Button color='inherit' onClick={logOut}>Logout</Button>
+          <Button color='inherit'>
+            <Link to="/signup" className={styles.link}>sign up</Link>
+          </Button>
+          <Button color='inherit'>
+            <Link to="/login" className={styles.link}>log in</Link>
+          </Button>
+          <Button color='inherit' onClick={handleLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
     </Box>
