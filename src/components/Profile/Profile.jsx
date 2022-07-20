@@ -1,32 +1,45 @@
-import React, { useState } from 'react'
-import { Avatar, Button, Grid, IconButton, Paper, Typography } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useAuth } from '../../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import {
+  Avatar,
+  Button,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useAuth } from "../../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { currentUser } = useAuth()
-  const navigate = useNavigate()
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  console.log(currentUser.email)
 
   return (
     <Grid sx={{ margin: 10 }}>
       <Paper elevation={20} sx={{ padding: 5 }}>
-        <IconButton onClick={() => navigate('/home')}>
+        <IconButton onClick={() => navigate("/home")}>
           <ArrowBackIcon />
         </IconButton>
-        <Grid align='center'>
-          <Avatar style={{ backgroundColor: '#1bbd72' }} />
+        <Grid align="center">
+          <Avatar style={{ backgroundColor: "#1bbd72" }} />
           <h2>Profile</h2>
         </Grid>
-        <Typography variant='h5' sx={{ padding: 3 }}>Email: {currentUser.email}</Typography>
+        <Typography variant="h5" sx={{ padding: 3 }}>
+          Email: {currentUser.email}
+        </Typography>
         <Button 
-          type='submit' variant='contained' color='primary'
+          // type="submit" 
+          variant="contained" 
+          color="primary"
+          onClick={()=>navigate('/update-profile')}
         >
-          Modify
+          Edit
         </Button>
       </Paper>
     </Grid>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

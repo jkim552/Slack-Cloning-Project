@@ -59,12 +59,12 @@ const Sidebar = (props) => {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar />
-        <Typography variant="h2">Slack</Typography>
+        {/* <Toolbar /> */}
+        <Typography variant='h2' sx={{ textAlign:'center' }}>Slack</Typography>
         <Divider />
         <List>
           <IconButton onClick={() => navigate('/profile')}>
-            <AccountIcon /> {currentUser.email}
+            <AccountIcon /> welcome, {currentUser.email}
           </IconButton>
         </List>
         <Divider />
