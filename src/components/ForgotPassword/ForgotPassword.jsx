@@ -5,83 +5,65 @@ import {
   Grid,
   Paper,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Alert,
   Typography,
 } from "@mui/material";
-import styles from "./Login.module.css";
+import styles from './ForgotPassword.module.css'
 import { useAuth } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
+import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const ForgotPassword = () => {
   const emailRef = useRef();
-  const passwordRef = useRef();
+  const { resetPassword } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       setError("");
       setLoading(true);
-      await signIn(emailRef.current.value, passwordRef.current.value);
-      navigate("/home");
+      await resetPassword(emailRef.current.value);
     } catch {
-      setError("Failed to Login");
+      setError("Failed to reset password");
     }
     setLoading(false);
   }
 
   return (
     <div>
-      <Navbar />
       <Grid align="center">
         <Paper className={styles.paper} elevation={20}>
           <Grid align="center">
             <Avatar style={{ backgroundColor: "#1bbd72" }}></Avatar>
-            <h2>Log In</h2>
+            <h2>Reset Password</h2>
           </Grid>
-          {error && <Alert severity="error">{error}</Alert>}
+          {error ? <Alert severity="error">{error}</Alert> :
+          <Alert severity="success">Check your inbox for reset instructions!</Alert>}
           <form className={styles.form} onSubmit={handleSubmit}>
             <TextField
               required
-              variant="standard"
+              variant="outlined"
               type="email"
               fullWidth
               label="Email"
               inputRef={emailRef}
             />
-            <TextField
-              required
-              variant="standard"
-              type="password"
-              fullWidth
-              label="Password"
-              inputRef={passwordRef}
-            />
-            {/* <FormControlLabel
-              control={<Checkbox name="checkedA" />}
-              label="Remember me"
-            /> */}
             <Button
               disabled={loading}
-              className={styles.loginBtn}
+              className={styles.btn}
               type="submit"
               variant="contained"
               color="primary"
             >
-              Log In
+              Reset Password
             </Button>
           </form>
-          <Link className={styles.forgot} to="/forgot-password">forgot password?</Link>
+          <Link className={styles.backBtn} to="/login">Back to login page</Link>
         </Paper>
       </Grid>
     </div>
   );
 };
 
-export default LoginPage;
+export default ForgotPassword;
