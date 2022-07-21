@@ -30,22 +30,20 @@ const EditProfile = () => {
       return setError('Passwords do not match')
     }
     if (emailRef.current.value !== currentUser.email) {
-      await updateEmail(emailRef.current.value)
+      try {
+        setError('')
+        setLoading(true)
+        await updateEmail(emailRef.current.value)
+        if (passwordRef.current.value) {
+          await updatePassword(passwordRef.current.value)
+        }
+        alert('successfully update')
+        navigate("/profile")
+      } catch (e) {
+        setError(e)
+      }
     }
     else { setError('Nothing to update') }
-
-    if (passwordRef.current.value) {
-      await updatePassword(passwordRef.current.value)
-    }
-
-    try {
-      setError('')
-      setLoading(true)
-      alert('successfully update')
-      navigate("/profile")
-    } catch {
-      setError('Failed to update profile')
-    }
     setLoading(false)
   }
 

@@ -6,6 +6,7 @@ import EditProfile from "./Profile/EditProfile";
 import app from '../firebase'
 import { Routes, Route } from "react-router-dom"
 import { AuthProvider } from "../contexts/AuthContext";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
   return (
@@ -14,7 +15,11 @@ function App() {
         <Routes>
           <Route path="/update-profile" element={<EditProfile />} />
           <Route path="/" element={<SignupPage />} />
-          <Route path="/home" element={<Homepage />} />
+          <Route path="/home" element={
+            <PrivateRoute>
+              <Homepage />
+            </PrivateRoute>
+          } />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
           <Route path="profile" element={<Profile />} />

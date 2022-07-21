@@ -41,7 +41,7 @@ const Navbar = () => {
           <Button color='inherit'>
             <Link to="/login" className={styles.link}>log in</Link>
           </Button>
-          <Button color='inherit' onClick={handleLogout}>Logout</Button>
+          {/* <Button color='inherit' onClick={handleLogout}>Logout</Button> */}
         </Toolbar>
       </AppBar>
     </Box>
