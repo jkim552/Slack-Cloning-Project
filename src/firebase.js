@@ -1,14 +1,10 @@
-import { initializeApp, firebase } from 'firebase/app';
+//import { initializeApp, firebase } from 'firebase/';
+import firebase from 'firebase/compat/app';
 import { getAuth } from 'firebase/auth';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+//import { firebaseConfig } from './firebase.config';
 
-/*const app = firebase.initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  rojectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-});*/
 const firebaseConfig = {
   apiKey: 'AIzaSyC9MuHLZ_p0aoBJ_vcLMnm0UGGTBzXGBEI',
   authDomain: 'slackclone-dev.firebaseapp.com',
@@ -18,8 +14,7 @@ const firebaseConfig = {
   appId: '1:105754588908:web:61f4c3bf5d2226f21357c9',
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export default app;

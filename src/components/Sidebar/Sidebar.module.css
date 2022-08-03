@@ -1,0 +1,44 @@
+.container{
+    color: white;
+    background-color: #421f44;
+    flex: 0.3;
+    display: flex;
+    border-top: 1px solid #49274b;
+    max-width: 260px;
+    margin-top: 1px;
+}
+
+.sidebarHeader{
+    display: flex;
+    border-bottom: 1px solid #49274b;
+    padding: 13px;
+} 
+
+
+
+.sidebarInfo{
+    flex: 1;
+}
+
+.sidebarInfo > h2{
+    margin-top: 1px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.sidebarInfo > h3{
+    display:flex;
+    font-size: 13px;
+    font-weight: 400;
+    align-items: center;
+}
+
+.editIcon{
+    padding: 8px;
+    border-radius: 999px;
+    background-color: white;
+    font-size: 16px;
+    color: #49274b;
+    margin-left: 60px;
+}

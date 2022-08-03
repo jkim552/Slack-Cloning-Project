@@ -4,6 +4,7 @@ import { Avatar, InputAdornment, TextField } from '@mui/material';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from './Header.module.css';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const MyTextField = styled(TextField)({
   borderRadius: '50px',
@@ -50,7 +51,9 @@ const Header = () => {
           placeholder={' Search: '}
         ></MyTextField>
       </div>
-      <div className={styles.right}>3</div>
+      <div className={styles.right}>
+        <HelpOutlineIcon className={styles.helpIcon} />
+      </div>
     </div>
   );
 };

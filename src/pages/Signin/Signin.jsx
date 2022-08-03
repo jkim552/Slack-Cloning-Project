@@ -13,7 +13,7 @@ import slackLogo from '../../assets/slack.svg';
 import { useNavigate } from 'react-router-dom';
 import styles from './Signin.module.css';
 import { auth } from '../../firebase';
-import { Snackbar } from '@mui/material';
+import { Alert, AlertTitle, Snackbar } from '@mui/material';
 
 const Copyright = props => {
   return (
@@ -24,7 +24,7 @@ const Copyright = props => {
       {...props}
     >
       {'Copyright @ '}
-      <Link color='inherit' href='https://www.github/jkim552'>
+      <Link color='inherit' href='https://www.github.com/jkim552'>
         {' '}
         My Github Page
       </Link>{' '}
@@ -39,13 +39,17 @@ const Signin = () => {
   const [password, setPassword] = useState('');
 
   const submit = async () => {
+    let response;
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       handleRedirectToSlack();
       // console.log(result);
     } catch (e) {
-      console.log(e);
+      console.log('failed!');
+      response = e;
+      alert('Bad credentials, please try again');
     }
+    return response;
   };
 
   let navigate = useNavigate();
